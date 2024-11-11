@@ -1,0 +1,553 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Jogos - Estilo Friv</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: Arial, sans-serif;
+    }
+
+    body {
+      background-color: #e0e0e0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      flex-direction: column;
+    }
+
+    .header {
+      margin-bottom: 20px;
+      font-size: 2em;
+      color: #444;
+      text-align: center;
+    }
+
+    .container {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 20px;
+      justify-content: center;
+      width: 80%;
+      max-width: 1200px;
+    }
+
+    .game-box {
+      width: 200px;
+      height: 200px;
+      background-color: #ffda79;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: transform 0.3s, box-shadow 0.3s;
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+      position: relative;
+    }
+
+    .game-box:hover {
+      transform: scale(1.05);
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+    }
+
+    .game-box img {
+      max-width: 90%;
+      max-height: 90%;
+      display: none; /* imagem do jogo oculta inicialmente */
+      border-radius: 8px;
+    }
+
+    .game-box p {
+      font-size: 1.2em;
+      color: #333;
+      text-align: center;
+    }
+    .modal {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.8);
+      align-items: center;
+      justify-content: center;
+    }
+
+    .modal-content {
+      position: relative;
+      width: 80%;
+      max-width: 800px;
+      background-color: #fff;
+      border-radius: 10px;
+      overflow: hidden;
+    }
+
+    .close-button {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      font-size: 1.5em;
+      color: #333;
+      cursor: pointer;
+    }
+
+    iframe {
+      width: 100%;
+      height: 500px;
+      border: none;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="header">Jogos </div>
+
+  <div class="container">
+    <div class="game-box" onclick="openGameModal('Jogo do Ping Pong/jogo1.html')">
+      <p>Jogo do Ping-Pong</p>
+
+
+
+
+      <script>
+   // Seleciona os elementos
+const tela = document.getElementById('tela');
+const raqueteEsquerda = document.getElementById('raquete-esquerda');
+const raqueteDireita = document.getElementById('raquete-direita');
+const bola = document.getElementById('bola');
+const botaoIniciar = document.getElementById('botao-iniciar');
+const botaoDificuldade = document.getElementById('botao-dificuldade'); // Novo botão de dificuldade
+
+// Variáveis de jogo
+let posicaoRaqueteEsquerda = 160;
+let posicaoRaqueteDireita = 160;
+let posicaoBolaX = 390;
+let posicaoBolaY = 190;
+let velocidadeBolaX = 2;
+let velocidadeBolaY = 2;
+let velocidadeRaquete = 5;
+let jogoIniciado = false;
+
+// Função para iniciar o jogo e mover a bola em direção aleatória
+function iniciarJogo() {
+  if (!jogoIniciado) {
+    // Define uma direção aleatória para a bola
+    velocidadeBolaX = Math.random() < 0.5 ? velocidadeBolaX : -velocidadeBolaX;
+    velocidadeBolaY = Math.random() < 0.5 ? velocidadeBolaY : -velocidadeBolaY;
+    jogoIniciado = true;
+    botaoIniciar.style.display = 'none'; // Esconde o botão após iniciar o jogo
+  }
+}
+
+// Função para aumentar a dificuldade
+function aumentarDificuldade() {
+  velocidadeBolaX *= 2; // Dobra a velocidade da bola no eixo X
+  velocidadeBolaY *= 2; // Dobra a velocidade da bola no eixo Y
+  velocidadeRaquete *= 2; // Dobra a velocidade das raquetes
+  console.log("Dificuldade aumentada! Velocidade da bola e das raquetes dobrada.");
+}
+
+// Evento de clique no botão "Iniciar"
+botaoIniciar.addEventListener('click', iniciarJogo);
+
+// Evento de clique no botão "Dificuldade"
+botaoDificuldade.addEventListener('click', aumentarDificuldade);
+
+// Controle das raquetes com o teclado
+document.addEventListener('keydown', (evento) => {
+  switch(evento.key) {
+    case 'w': // Tecla "W" para mover a raquete esquerda para cima
+      if (posicaoRaqueteEsquerda > 0) posicaoRaqueteEsquerda -= velocidadeRaquete;
+      break;
+    case 's': // Tecla "S" para mover a raquete esquerda para baixo
+      if (posicaoRaqueteEsquerda < 320) posicaoRaqueteEsquerda += velocidadeRaquete;
+      break;
+    case 'ArrowUp': // Tecla "Seta para cima" para mover a raquete direita para cima
+      if (posicaoRaqueteDireita > 0) posicaoRaqueteDireita -= velocidadeRaquete;
+      break;
+    case 'ArrowDown': // Tecla "Seta para baixo" para mover a raquete direita para baixo
+      if (posicaoRaqueteDireita < 320) posicaoRaqueteDireita += velocidadeRaquete;
+      break;
+  }
+});
+
+// Atualiza a posição da bola e verifica colisões
+function atualizarJogo() {
+  if (jogoIniciado) {
+    // Move a bola
+    posicaoBolaX += velocidadeBolaX;
+    posicaoBolaY += velocidadeBolaY;
+
+    // Colisão com as bordas superior e inferior
+    if (posicaoBolaY <= 0 || posicaoBolaY >= 380) {
+      velocidadeBolaY *= -1;
+    }
+
+    // Colisão com as raquetes
+    if (
+      posicaoBolaX <= 30 &&
+      posicaoBolaY >= posicaoRaqueteEsquerda &&
+      posicaoBolaY <= posicaoRaqueteEsquerda + 80
+    ) {
+      velocidadeBolaX *= -1;
+    }
+    
+    if (
+      posicaoBolaX >= 750 &&
+      posicaoBolaY >= posicaoRaqueteDireita &&
+      posicaoBolaY <= posicaoRaqueteDireita + 80
+    ) {
+      velocidadeBolaX *= -1;
+    }
+
+    // Verifica se a bola saiu da tela (reinicia o jogo)
+    if (posicaoBolaX < 0 || posicaoBolaX > 780) {
+      // Reinicia as posições e velocidade da bola
+      posicaoBolaX = 390;
+      posicaoBolaY = 190;
+      velocidadeBolaX = 2;
+      velocidadeBolaY = 2;
+      velocidadeRaquete = 5;
+      jogoIniciado = false;
+      botaoIniciar.style.display = 'block'; // Exibe o botão para reiniciar
+    }
+  }
+
+  // Atualiza as posições dos elementos na tela
+  raqueteEsquerda.style.top = posicaoRaqueteEsquerda + 'px';
+  raqueteDireita.style.top = posicaoRaqueteDireita + 'px';
+  bola.style.left = posicaoBolaX + 'px';
+  bola.style.top = posicaoBolaY + 'px';
+
+  requestAnimationFrame(atualizarJogo);
+}
+
+// Inicia o loop do jogo
+atualizarJogo();
+
+
+
+
+
+      </script>
+    </body>
+    </div>
+    
+    <div class="game-box" onclick="openGameModal('PedraPapelTesoura-main/jokenpo.html')">
+      <p>Pedra Papel Tesoura</p>
+
+      <script>
+        let jogadorEscolhas = [];
+        let computadorOpt = "";
+        let dificuldade = 'facil'; // Modo padrão
+        
+        // Função para configurar a dificuldade
+        function setDificuldade(nivel) {
+          dificuldade = nivel;
+          alert(`Modo ${nivel.charAt(0).toUpperCase() + nivel.slice(1)} ativado!`);
+        }
+        
+        // Função para analisar o padrão de escolhas do jogador
+        function analisarEscolhasJogador() {
+          if (jogadorEscolhas.length < 2) return null;
+        
+          const ultimaEscolha = jogadorEscolhas[jogadorEscolhas.length - 1];
+          const penultimaEscolha = jogadorEscolhas[jogadorEscolhas.length - 2];
+          
+          if (ultimaEscolha === penultimaEscolha) {
+            return ultimaEscolha === 'pedra' ? 'papel' :
+                   ultimaEscolha === 'papel' ? 'tesoura' : 'pedra';
+          }
+        
+          return null;
+        }
+        
+        // Função que implementa a estratégia difícil
+        function estrategiaDificil(jogadorEscolha) {
+          let escolhaPrevista = analisarEscolhasJogador();
+          if (escolhaPrevista) {
+            if (escolhaPrevista === 'pedra') return 1;
+            if (escolhaPrevista === 'papel') return 2;
+            if (escolhaPrevista === 'tesoura') return 0;
+          }
+          return Math.floor(Math.random() * 3);
+        }
+        
+        function computadorJogar() {
+          let rand = (dificuldade === 'facil') ? Math.floor(Math.random() * 3) : estrategiaDificil(jogadorOpt);
+          const opcaoComputador = document.querySelectorAll(".opcao-computador img");
+          resetCoputador(opcaoComputador);
+          opcaoComputador[rand].style.opacity = 1;
+          computadorOpt = opcaoComputador[rand].getAttribute("opt");
+          validarVitoria();
+        }
+        
+        const elementos = document.querySelectorAll(".opcao-jogador img");
+        let jogadorOpt = "";
+        
+        function resetOpacityJogador() {
+          elementos.forEach(img => img.style.opacity = 0.3);
+        }
+        
+        function resetCoputador(opcaoComputador) {
+          opcaoComputador.forEach(img => img.style.opacity = 0.3);
+        }
+        
+        function validarVitoria() {
+          let vencedor = document.querySelector("#resultado");
+          if (jogadorOpt === computadorOpt) {
+            vencedor.innerHTML = "Empate!";
+          } else if (
+            (jogadorOpt === "pedra" && computadorOpt === "tesoura") ||
+            (jogadorOpt === "papel" && computadorOpt === "pedra") ||
+            (jogadorOpt === "tesoura" && computadorOpt === "papel")
+          ) {
+            vencedor.innerHTML = "Você Ganhou!!!";
+          } else {
+            vencedor.innerHTML = "O computador ganhou!";
+          }
+        }
+        
+        elementos.forEach(img => img.addEventListener('click', (e) => {
+          resetOpacityJogador();
+          e.target.style.opacity = 1;
+          jogadorOpt = e.target.getAttribute("opt");
+          jogadorEscolhas.push(jogadorOpt);
+          computadorJogar();
+        }));
+        
+        // Modal
+        const modal = document.getElementById("modal-ajuda");
+        const btnAjuda = document.getElementById("btn-ajuda");
+        const fecharModal = document.getElementById("fechar-modal");
+        
+        btnAjuda.addEventListener("click", () => {
+          modal.style.display = "block";
+        });
+        
+        fecharModal.addEventListener("click", () => {
+          modal.style.display = "none";
+        });
+        
+        window.addEventListener("click", (e) => {
+          if (e.target === modal) modal.style.display = "none";
+        });
+        </script>
+
+
+
+
+
+    </div>
+    <div class="game-box" onclick="openGameModal(src='jogoDaForca/jogo3.html')">
+      <p>Jogo da Forca </p>
+      
+
+
+      
+      <script>
+       let palavra = "", letrasChutadas = [], erros = 0, maxErros = 6, tempo = 60, intervalo;
+const palavras = ["javascript", "css", "html", "frontend", "desenvolvedor", "fabio", "basso", "engenharia", "software", "sistemas", "distribuidos"];
+
+function iniciarJogo() {
+    erros = 0;
+    letrasChutadas = [];
+    palavra = palavras[Math.floor(Math.random() * palavras.length)];
+    document.getElementById("result").innerText = "";
+    document.getElementById("mistakes").innerText = erros;
+    document.getElementById("wordDisplay").innerText = "_ ".repeat(palavra.length).trim();
+    document.getElementById("guess").disabled = false;
+    document.querySelector(".input-section button").disabled = false;
+
+    tempo = 60;
+    document.getElementById("timer").innerText = tempo;
+    clearInterval(intervalo);
+    intervalo = setInterval(atualizarTempo, 1000);
+}
+
+function chutarLetra() {
+    let letra = document.getElementById("guess").value.toLowerCase();
+    document.getElementById("guess").value = "";
+
+    if (!letra || letrasChutadas.includes(letra) || !/^[a-z]$/.test(letra)) return;
+
+    letrasChutadas.push(letra);
+    if (palavra.includes(letra)) {
+        let exibicao = [...palavra].map(l => (letrasChutadas.includes(l) ? l : "_")).join(" ");
+        document.getElementById("wordDisplay").innerText = exibicao;
+        if (!exibicao.includes("_")) encerrarJogo("Você Ganhou!");
+    } else {
+        document.getElementById("mistakes").innerText = ++erros;
+        if (erros >= maxErros) encerrarJogo(`Game Over! A palavra era "${palavra}".`);
+    }
+}
+
+function atualizarTempo() {
+    document.getElementById("timer").innerText = --tempo;
+    if (tempo <= 0) encerrarJogo(`Tempo Esgotado! A palavra era "${palavra}".`);
+}
+
+function encerrarJogo(mensagem) {
+    clearInterval(intervalo);
+    document.getElementById("result").innerText = mensagem;
+    document.getElementById("guess").disabled = true;
+    document.querySelector(".input-section button").disabled = true;
+}
+
+        </script>
+
+
+
+
+      
+    
+
+
+
+
+
+    </div>
+    <div class="game-box" onclick="openGameModal(src='Jogo-da-Velha-main/jogo4.html')">
+      <p>Jogo da Velha</p>
+      <script>let board, currentPlayer, gameActive, playAgainstComputer, difficulty;
+        const boardSize = 3;
+        
+        function startGame(againstComputer, diff = 'easy') {
+          playAgainstComputer = againstComputer;
+          difficulty = diff;
+          currentPlayer = "X";
+          gameActive = true;
+          board = Array.from({ length: boardSize }, () => Array(boardSize).fill(""));
+          updateStatus();
+          renderBoard();
+        }
+        
+        function renderBoard() {
+          const gameBoard = document.getElementById("game-board");
+          gameBoard.innerHTML = '';
+          gameBoard.style.gridTemplateColumns = `repeat(${boardSize}, 1fr)`;
+          board.forEach((row, i) => row.forEach((cell, j) => {
+            const cellElement = document.createElement("div");
+            cellElement.classList.add("cell");
+            cellElement.textContent = cell;
+            cellElement.onclick = () => handleMove(i, j);
+            gameBoard.appendChild(cellElement);
+          }));
+        }
+        
+        function handleMove(row, col) {
+          if (!gameActive || board[row][col]) return;
+          board[row][col] = currentPlayer;
+          renderBoard();
+        
+          if (checkWin()) return endGame(`${currentPlayer} venceu!`);
+          if (board.flat().every(cell => cell)) return endGame("Empate!");
+        
+          currentPlayer = currentPlayer === "X" ? "O" : "X";
+          updateStatus();
+        
+          if (playAgainstComputer && currentPlayer === "O") setTimeout(playAgainstBot, 500);
+        }
+        
+        function playAgainstBot() {
+          const move = (difficulty === 'easy') ? getRandomMove() : getBestMove();
+          if (move) handleMove(move.row, move.col);
+        }
+        
+        function getRandomMove() {
+          const emptyCells = board.flatMap((row, i) => row.map((cell, j) => !cell ? { row: i, col: j } : null)).filter(Boolean);
+          return emptyCells[Math.floor(Math.random() * emptyCells.length)];
+        }
+        
+        function getBestMove() {
+          return winningMove("O") || winningMove("X") || getRandomMove();
+        }
+        
+        function winningMove(player) {
+          for (let i = 0; i < boardSize; i++) {
+            for (let j = 0; j < boardSize; j++) {
+              if (!board[i][j]) {
+                board[i][j] = player;
+                const isWin = checkWin();
+                board[i][j] = "";
+                if (isWin) return { row: i, col: j };
+              }
+            }
+          }
+          return null;
+        }
+        
+        function checkWin() {
+          const lines = [
+            ...board, 
+            ...board[0].map((_, i) => board.map(row => row[i])),
+            board.map((_, i) => board[i][i]), 
+            board.map((_, i) => board[i][boardSize - i - 1])
+          ];
+          return lines.some(line => line.every(cell => cell === currentPlayer));
+        }
+        
+        function updateStatus() {
+          document.getElementById("status").textContent = `Jogador Atual: ${currentPlayer}`;
+        }
+        
+        function endGame(message) {
+          document.getElementById("status").textContent = message;
+          gameActive = false;
+        }
+        
+        function showRules() {
+          alert(`Regras do Jogo da Velha\n\nObjetivo: Alinhar símbolos na horizontal, vertical ou diagonal.\nModos:\n- Multiplayer: Dois jogadores alternam jogadas.\n- Contra o Computador: Fácil (joga aleatoriamente), Difícil (tenta bloquear ou vencer).\nPasso a Passo:\n1. Escolha o modo.\n2. Clique para jogar.\n3. O bot joga automaticamente no modo contra o computador.`);
+        }
+        </script>
+
+
+
+
+    </div>
+    <div class="game-box" onclick="openGameModal('meu_jogo.html')">
+      <p>Jogo 5</p>
+    </div>
+
+
+
+
+    
+  </div>
+
+  <!-- Modal para exibir o jogo -->
+  <div class="modal" id="gameModal">
+    <div class="modal-content">
+      <span class="close-button" onclick="closeGameModal()">×</span>
+      <iframe id="gameIframe" src="jogo.js"></iframe>
+      
+    </div>
+  </div>
+
+  <script>
+    function openGameModal(gameUrl) {
+      const modal = document.getElementById("gameModal");
+      const iframe = document.getElementById("gameIframe");
+
+      iframe.src = gameUrl;  // Define o URL do jogo no iframe
+      modal.style.display = "flex";  // Mostra o modal
+    }
+
+    function closeGameModal() {
+      const modal = document.getElementById("gameModal");
+      const iframe = document.getElementById("gameIframe");
+
+      iframe.src = "";  // Limpa o URL para parar o jogo
+      modal.style.display = "none";  // Esconde o modal
+    }
+  </script>
+
+</body>
+</html>

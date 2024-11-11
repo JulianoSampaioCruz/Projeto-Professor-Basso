@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Jogo de Ping Pong</title>
+  <link rel="stylesheet" href="file:///C:/caminho-completo-do-seu-arquivo/estilo.css">
+  <style>
+
+    body {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      background-color: #282c34;
+    }
+    
+    #tela {
+      width: 800px;
+      height: 400px;
+      background-color: #000;
+      position: relative;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+    
+    #raquete-esquerda, #raquete-direita {
+      width: 20px;
+      height: 80px;
+      background-color: #fff;
+      position: absolute;
+    }
+    
+    #raquete-esquerda {
+      left: 10px;
+      top: calc(50% - 40px); /* Centraliza verticalmente */
+    }
+    
+    #raquete-direita {
+      right: 10px;
+      top: calc(50% - 40px); /* Centraliza verticalmente */
+    }
+    
+    #bola {
+      width: 20px;
+      height: 20px;
+      background-color: #ff0000;
+      position: absolute;
+      border-radius: 50%;
+      left: calc(50% - 10px); /* Centraliza horizontalmente */
+      top: calc(50% - 10px);  /* Centraliza verticalmente */
+    }
+    #botao-iniciar {
+      margin-top: 15px; /* Espaço de 20px acima do botão */
+      padding: 10px 15px;
+      font-size: 18px;
+      cursor: pointer;
+      display: block;
+      margin-left: 10px;
+      margin-right: 10px;
+    }
+    #botao-dificuldade {
+      margin-top: 15px; /* Espaço de 20px acima do botão */
+      padding: 10px 15px; 
+      font-size: 18px;
+      cursor: pointer;
+      display: block;
+      margin-left: 10px;
+      margin-right: 10px;
+    }
+  
+  </style>
+</head>
+<body>
+  <div id="tela">
+    <div id="raquete-esquerda"></div>
+    <div id="raquete-direita"></div>
+    <div id="bola"></div>
+  </div>
+  <button id="botao-iniciar">Iniciar</button>
+  <button id="botao-dificuldade">Dificuldade</button>
+  <script src="jogo.js" defer></script>
+  
+</body>
+</html>

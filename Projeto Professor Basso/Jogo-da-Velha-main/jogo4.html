@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Jogo da Velha</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <h1>Jogo da Velha</h1>
+  <div class="mode-select">
+    <button onclick="startGame(false)">Modo 3x3 (Multiplayer)</button>
+    <button onclick="startGame(true, 'easy')">Modo 3x3 (Contra o Computador - Fácil)</button>
+    <button onclick="startGame(true, 'hard')">Modo 3x3 (Contra o Computador - Difícil)</button>
+  </div>
+  <button onclick="showRules()">Regras do Jogo</button>
+  <div id="game-board" class="game-board"></div>
+  <p id="status"></p>
+  <script src="jdv.js"></script>
+</body>
+</html>

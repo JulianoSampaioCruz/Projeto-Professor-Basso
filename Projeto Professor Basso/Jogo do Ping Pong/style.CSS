@@ -1,0 +1,61 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background-color: #282c34;
+}
+
+#tela {
+  width: 800px;
+  height: 400px;
+  background-color: #000;
+  position: relative;
+}
+
+#raquete-esquerda, #raquete-direita {
+  width: 20px;
+  height: 80px;
+  background-color: #fff;
+  position: absolute;
+}
+
+#raquete-esquerda {
+  left: 10px;
+}
+
+#raquete-direita {
+  right: 10px;
+}
+
+#bola {
+  width: 20px;
+  height: 20px;
+  background-color: #ff0000;
+  position: absolute;
+  border-radius: 50%;
+}
+#botao-iniciar {
+  margin-top: 15px; 
+  padding: 10px 20px;
+  font-size: 18px;
+  cursor: pointer;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+#botao-dificuldade {
+  margin-top: 15px;
+  padding: 10px 20px;
+  font-size: 18px;
+  cursor: pointer;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
